@@ -37,7 +37,7 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemProdutoAction() {
-		System.out.println("onMenuItemProdutoAction");
+		loadView("/gui/views/ProdutoList.fxml");
 	}
 
 	@FXML
@@ -56,7 +56,7 @@ public class MainViewController implements Initializable {
 
 	}
 
-	public void loadView(String nomeAbsoluto) {
+	public synchronized void loadView(String nomeAbsoluto) {
 		try {
 			// Carregar a nova tela
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
