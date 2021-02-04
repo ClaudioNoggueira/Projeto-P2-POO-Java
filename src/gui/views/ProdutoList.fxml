@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox prefHeight="523.0" prefWidth="580.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+<VBox prefHeight="523.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ProdutoListController">
    <children>
       <Label text="Cadastro de produtos">
          <font>
@@ -22,17 +21,17 @@
       </Label>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-          <Button mnemonicParsing="false" text="Adicionar" />
+          <Button fx:id="btnAdicionar" mnemonicParsing="false" onAction="#onBtnAdicionarAction" text="Adicionar" />
         </items>
       </ToolBar>
-      <TableView prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="tblViewProduto" prefHeight="200.0" prefWidth="200.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="ID" />
-          <TableColumn prefWidth="75.0" text="Nome" />
-            <TableColumn prefWidth="75.0" text="Descrição" />
-            <TableColumn prefWidth="75.0" text="Preço" />
-            <TableColumn prefWidth="75.0" text="Quantidade" />
-            <TableColumn prefWidth="103.0" text="Data de adição" />
+          <TableColumn fx:id="tblColumnID" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="tblColumnNome" prefWidth="75.0" text="Nome" />
+            <TableColumn fx:id="tblColumnDescricao" prefWidth="75.0" text="Descrição" />
+            <TableColumn fx:id="tblColumnPreco" prefWidth="75.0" text="Preço" />
+            <TableColumn fx:id="tblColumnQuantidade" prefWidth="75.0" text="Quantidade" />
+            <TableColumn fx:id="tblColumnDataAdicao" prefWidth="103.0" text="Data de adição" />
         </columns>
       </TableView>
    </children>
