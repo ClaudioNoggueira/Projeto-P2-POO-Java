@@ -3,6 +3,7 @@ package gui.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import application.Main;
 import gui.util.Alerts;
@@ -38,7 +39,10 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemProdutoAction() {
-		loadView2("/gui/views/ProdutoList.fxml");
+		loadView("/gui/views/ProdutoList.fxml", (ProdutoListController controller) -> {
+			controller.setProdutoService(new ProdutoService());
+			controller.updateTableView();
+		});
 	}
 
 	@FXML
@@ -48,7 +52,8 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemDescricaoAction() {
-		loadView("/gui/views/Descricao.fxml");
+		loadView("/gui/views/Descricao.fxml", x -> {
+		});
 	}
 
 	@Override
@@ -57,7 +62,7 @@ public class MainViewController implements Initializable {
 
 	}
 
-	public synchronized void loadView(String nomeAbsoluto) {
+	public synchronized <T> void loadView(String nomeAbsoluto, Consumer<T> iniciarFuncao) {
 		try {
 			// Carregar a nova tela
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
@@ -80,38 +85,9 @@ public class MainViewController implements Initializable {
 
 			// Adicionar o VBox da nova tela
 			mainVBox.getChildren().addAll(newVBox.getChildren());
-		} catch (IOException e) {
-			Alerts.showAlert("IOException", "Erro carregando a página", e.getMessage(), AlertType.ERROR);
-		}
-	}
-	
-	public synchronized void loadView2(String nomeAbsoluto) {
-		try {
-			// Carregar a nova tela
-			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeAbsoluto));
-			// Carregar VBox da nova tela junto com seus elementos
-			VBox newVBox = loader.load();
 
-			// Abstrair a tela principal
-			Scene mainScene = Main.getMainScene();
-			// Abstrair a VBox da tela principal
-			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
-
-			// Guardar referência do menu da tela principal
-			Node mainMenu = mainVBox.getChildren().get(0);
-
-			// Excluir todos os elementos da VBox da tela principal
-			mainVBox.getChildren().clear();
-
-			// Adicionar o menu da tela principal
-			mainVBox.getChildren().add(mainMenu);
-
-			// Adicionar o VBox da nova tela
-			mainVBox.getChildren().addAll(newVBox.getChildren());
-			
-			ProdutoListController controller = loader.getController();
-			controller.setProdutoService(new ProdutoService());
-			controller.updateTableView();
+			T controller = loader.getController();
+			iniciarFuncao.accept(controller);
 		} catch (IOException e) {
 			Alerts.showAlert("IOException", "Erro carregando a página", e.getMessage(), AlertType.ERROR);
 		}
